@@ -1,10 +1,16 @@
 {
   "name": "sails-generate-auth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate a Passport.js authentication layer for your Sails app that will Rock Your Socks™.",
+  "author": "Kasper Isager <kasperisager@gmail.com>",
   "main": "lib/index.js",
-  "scripts": {
-    "test": "mocha"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kasperisager/sails-generate-auth.git"
+  },
+  "bugs": {
+    "email": "kasperisager@gmail.com",
+    "url": "http://github.com/kasperisager/sails-generate-auth/issues"
   },
   "keywords": [
     "auth",
@@ -14,7 +20,6 @@
     "plugin",
     "passport"
   ],
-  "author": "Kasper Isager <kasperisager@gmail.com>",
   "license": "MIT",
   "dependencies": {
   	"lodash": ">=2.4.x",
