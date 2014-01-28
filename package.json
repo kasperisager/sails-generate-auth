@@ -1,0 +1,36 @@
+{
+  "name": "sails-generate-auth",
+  "version": "0.1.0",
+  "description": "Generate a Passport.js authentication layer for your Sails app that will Rock Your Socks™.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "auth",
+    "generator",
+    "sails",
+    "generate",
+    "plugin",
+    "passport"
+  ],
+  "author": "Kasper Isager <kasperisager@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+  	"lodash": ">=2.4.x",
+  	"merge-defaults": ">=0.1.0"
+  },
+  "devDependencies": {
+    "sails-generate": "*",
+    "reportback": "*",
+    "fs-extra": "*"
+  },
+  "sails": {
+  	"generator": {
+	 		"name": "auth",
+	 		"behavior": "overrides `sails generate auth`",
+	 		"sailsVersion": "0.10.x",
+	 		"main": "lib/index"
+  	}
+  }
+}
