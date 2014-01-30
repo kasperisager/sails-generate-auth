@@ -143,3 +143,5 @@ See `FAQ.md`.
 **[MIT](LICENSE.md)** &copy; 2014 [Kasper Kronborg Isager](http://github.com/kasperisager)
 
 [Sails](http://sailsjs.org) is free and open-source under the [MIT License](http://sails.mit-license.org/).
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/kasperisager/sails-generate-auth/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
