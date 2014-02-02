@@ -2,6 +2,9 @@
 
 # sails-generate-auth
 
+[![NPM version](https://badge.fury.io/js/sails-generate-auth.png)](http://badge.fury.io/js/sails-generate-auth) [![Dependency Status](https://gemnasium.com/kasperisager/sails-generate-auth.png)](https://gemnasium.com/kasperisager/sails-generate-auth)
+
+
 A Passport.js-based authentication generator for use with the Sails command-line interface.
 
 So, how easy is it to use? Say you wanted to add Twitter authentication to our app for example – this is all you'd need:
