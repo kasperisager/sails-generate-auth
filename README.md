@@ -64,7 +64,7 @@ sailsgen(require('sails-generate-auth'), scope, function (err) {
 
 ##### Requirements
 
-The only  requirements, besides running the generator and adding some providers in `config/passport.js`, is having a model named "User" in your application as well as a set of routes that exposes the authentication endpoints. You'll also need to load the Passport.js middleware for all your controllers.
+The only  requirements, besides running the generator and adding some providers in `config/passport.js`, is having a model named "User" in your application as well as a set of routes that exposes the authentication endpoints. You'll also need to load the Passport.js middleware for all your controllers and install the required NPM packages.
 
 At the very least, your User model needs to look like this:
 
@@ -97,6 +97,8 @@ All required Passport.js middleware is contained within the `passport` policy so
 ```javascript
 '*': [ 'passport' ]
 ```
+
+Lastly, you will need to install the [`passport`](https://npmjs.org/package/passport), [`bcrypt`](https://npmjs.org/package/passport) and [`validator`](https://npmjs.org/package/validator) packages from NPM for everything to work correctly.
 
 If you want to make use of the error messages, you'll also need to add the following locale definitions (example translations provided):
 
