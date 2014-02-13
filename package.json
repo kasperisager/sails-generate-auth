@@ -30,12 +30,9 @@
     "reportback": "*",
     "fs-extra": "*"
   },
-  "sails": {
-  	"generator": {
-	 		"name": "auth",
-	 		"behavior": "overrides `sails generate auth`",
-	 		"sailsVersion": "0.10.x",
-	 		"main": "lib/index"
-  	}
+  "sailsGenerator": {
+ 	"type": "auth",
+ 	"behavior": "overrides `sails generate auth`",
+ 	"sailsVersion": "0.10.x"
   }
 }
