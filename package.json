@@ -22,8 +22,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-  	"lodash": ">=2.4.x",
-  	"merge-defaults": ">=0.1.0"
+    "lodash": ">=2.4.x",
+    "merge-defaults": ">=0.1.0"
   },
   "devDependencies": {
     "sails-generate": "*",
@@ -31,8 +31,8 @@
     "fs-extra": "*"
   },
   "sailsGenerator": {
- 	"type": "auth",
- 	"behavior": "overrides `sails generate auth`",
- 	"sailsVersion": "0.10.x"
+    "type": "auth",
+    "behavior": "overrides `sails generate auth`",
+    "sailsVersion": "0.10.x"
   }
 }
