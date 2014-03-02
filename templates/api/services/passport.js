@@ -280,4 +280,12 @@ passport.loadStrategies = function (req) {
   });
 };
 
+passport.serializeUser(function (user, next) {
+  next(null, user.id);
+});
+
+passport.deserializeUser(function (id, next) {
+  User.findOne(id).done(next);
+});
+
 module.exports = passport;
