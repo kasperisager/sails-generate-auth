@@ -22,14 +22,6 @@
  * @param {Function} next
  */
 module.exports = function (req, res, next) {
-  passport.serializeUser(function (user, next) {
-    next(null, user.id);
-  });
-
-  passport.deserializeUser(function (id, next) {
-    User.findOne(id).done(next);
-  });
-
   // Initialize Passport
   passport.initialize()(req, res, function () {
     // Use the built-in sessions
