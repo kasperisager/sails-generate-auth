@@ -89,7 +89,7 @@ passport.connect = function (req, query, profile, next) {
 
   Passport.findOne({
     provider   : profile.provider
-  , identifier : query.identifier
+  , identifier : query.identifier.toString()
   })
   .populate('user')
   .done(function (err, passport) {
