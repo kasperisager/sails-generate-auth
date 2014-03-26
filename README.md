@@ -2,7 +2,7 @@
 
 # sails-generate-auth
 
-[![NPM version](https://badge.fury.io/js/sails-generate-auth.png)](http://badge.fury.io/js/sails-generate-auth) [![Code Climate](https://codeclimate.com/github/kasperisager/sails-generate-auth.png)](https://codeclimate.com/github/kasperisager/sails-generate-auth) [![Dependency Status](https://gemnasium.com/kasperisager/sails-generate-auth.png)](https://gemnasium.com/kasperisager/sails-generate-auth)
+[![Release](http://img.shields.io/npm/v/sails-generate-auth.svg)](https://www.npmjs.org/package/sails-generate-auth) [![Code Climate](http://img.shields.io/codeclimate/github/kasperisager/sails-generate-auth.svg)](https://codeclimate.com/github/kasperisager/sails-generate-auth) [![Dependency Status](https://gemnasium.com/kasperisager/sails-generate-auth.svg)](https://gemnasium.com/kasperisager/sails-generate-auth)
 
 
 A Passport.js-based authentication generator for use with the Sails command-line interface.
