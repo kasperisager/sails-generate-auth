@@ -18,7 +18,7 @@
  * http://passportjs.org/guide/configure/
  *
  * @param {Object}   req
- * @param {Obecjt}   res
+ * @param {Object}   res
  * @param {Function} next
  */
 module.exports = function (req, res, next) {
