@@ -251,8 +251,7 @@ passport.loadStrategies = function (req) {
     , strategies = sails.config.passport;
 
   Object.keys(strategies).forEach(function (key) {
-    var Strategy = require('passport-' + key).Strategy
-      , options  = { passReqToCallback: true };
+    var options = { passReqToCallback: true }, Strategy;
 
     if (key === 'local') {
       // Since we need to allow users to login using both usernames as well as
@@ -260,12 +259,16 @@ passport.loadStrategies = function (req) {
       _.extend(options, { usernameField: 'identifier' });
 
       // Only load the local strategy if it's enabled in the config
-      if (strategies[key]) {
+      if (strategies.local) {
+        Strategy = strategies[key].strategy;
+
         self.use(new Strategy(options, self.protocols.local.login));
       }
     } else {
-      var protocol   = strategies[key].protocol
-        , callback   = path.join('auth', key, 'callback');
+      var protocol = strategies[key].protocol
+        , callback = path.join('auth', key, 'callback');
+
+      Strategy = strategies[key].strategy;
 
       switch (protocol) {
         case 'oauth':
