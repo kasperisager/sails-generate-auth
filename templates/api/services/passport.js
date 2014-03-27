@@ -117,7 +117,17 @@ passport.connect = function (req, query, profile, next) {
       //           connected passport.
       // Action:   Get the user associated with the passport.
       else {
-        next(null, passport.user);
+        // If the tokens have changed since the last session, update them
+        if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
+          passport.tokens = query.tokens;
+        }
+
+        user = passport.user;
+
+        // Save any updates to the Passport before moving on
+        passport.save(function (err, passport) {
+          next(err, user);
+        });
       }
     } else {
       // Scenario: A user is currently logged in and trying to connect a new
