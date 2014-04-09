@@ -266,7 +266,11 @@ passport.loadStrategies = function (req) {
       }
     } else {
       var protocol = strategies[key].protocol
-        , callback = path.join('auth', key, 'callback');
+        , callback = strategies[key].callback;
+
+      if (!callback) {
+        callback = path.join('auth', key, 'callback');
+      }
 
       Strategy = strategies[key].strategy;
 
