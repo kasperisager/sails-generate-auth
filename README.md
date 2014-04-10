@@ -32,6 +32,12 @@ I do encourage you to read through the entire source – everything's very well 
 
 Certain generators are installed by default in Sails, but they can be overridden.  Check the [Sails docs](http://sailsjs.org/#!documentation) for information on installing generator overrides / custom generators.
 
+In order to use a generator you will need the latest Sails, ~0.10, which can be installed with:
+
+```sh
+npm install sails@beta -g
+```
+
 <!--
 ```sh
 $ npm install sails-generate-auth
