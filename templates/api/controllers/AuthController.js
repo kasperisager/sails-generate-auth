@@ -123,7 +123,7 @@ var AuthController = {
         // If an error was thrown, redirect the user to the login which should
         // take care of rendering the error messages.
         if (err) {
-          res.redirect('/login');
+          res.redirect(req.param('action') === 'register' ? '/register' : '/login');
         }
         // Upon successful login, send the user to the homepage were req.user
         // will available.
