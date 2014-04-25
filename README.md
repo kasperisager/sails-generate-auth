@@ -77,7 +77,7 @@ At the very least, your User model needs to look like this:
 ```javascript
 module.exports = {
   
-  // Enforce model schema in the case of NoSQL
+  // Enforce model schema in the case of schemaless databases
   schema: true, 
   
   attributes: {
