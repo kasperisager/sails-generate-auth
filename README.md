@@ -77,7 +77,7 @@ At the very least, your User model needs to look like this:
 ```javascript
 module.exports = {
   
-  //needed to enforce uniqueness-constraints if you're using mongo
+  // Enforce model schema in the case of NoSQL
   schema: true, 
   
   attributes: {
