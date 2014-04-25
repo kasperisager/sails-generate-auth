@@ -76,6 +76,10 @@ At the very least, your User model needs to look like this:
 
 ```javascript
 module.exports = {
+  
+  //needed to enforce uniqueness-constraints if you're using mongo
+  schema: true, 
+  
   attributes: {
     username  : { type: 'string', unique: true },
     email     : { type: 'email',  unique: true },
