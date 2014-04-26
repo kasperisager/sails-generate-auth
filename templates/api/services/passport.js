@@ -90,9 +90,7 @@ passport.connect = function (req, query, profile, next) {
   Passport.findOne({
     provider   : profile.provider
   , identifier : query.identifier.toString()
-  })
-  .populate('user')
-  .exec(function (err, passport) {
+  }, function (err, passport) {
     if (err) return next(err);
 
     if (!req.user) {
@@ -122,11 +120,12 @@ passport.connect = function (req, query, profile, next) {
           passport.tokens = query.tokens;
         }
 
-        user = passport.user;
-
         // Save any updates to the Passport before moving on
         passport.save(function (err, passport) {
-          next(err, user);
+          if (err) return next(err);
+
+          // Fetch the user associated with the Passport
+          User.findOne(passport.user, next);
         });
       }
     } else {
