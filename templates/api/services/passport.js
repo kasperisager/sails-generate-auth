@@ -99,8 +99,11 @@ passport.connect = function (req, query, profile, next) {
       // Action:   Create a new user and assign them a passport.
       if (!passport) {
         User.create(user, function (err, user) {
-          if (err) return next(err);
-
+          if (err) {
+            req.flash('error', 'Error.Passport.Email.Exists');
+            return next(err);
+          }
+          
           query.user = user.id;
 
           Passport.create(query, function (err, passport) {
