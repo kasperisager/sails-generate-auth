@@ -70,7 +70,7 @@ sailsgen(require('sails-generate-auth'), scope, function (err) {
 
 ##### Requirements
 
-The only  requirements, besides running the generator and adding some providers in `config/passport.js`, is having a model named "User" in your application as well as a set of routes that exposes the authentication endpoints. You'll also need to load the Passport.js middleware for all your controllers and install the required NPM packages.
+The only  requirements, besides running the generator and adding some providers in `config/passport.js`, is having a model named "User" in your application as well as a set of routes that exposes the authentication endpoints. You'll also need to load the Passport.js middleware for all your controllers and install the required NPM packages. Lastly, you need to add a line to `config/bootstrap.js` to load your Passport providers on startup.
 
 At the very least, your User model needs to look like this:
 
@@ -100,6 +100,12 @@ As for the routes, this is what you'll need to add to your `config/routes.json` 
 
 'get /auth/:provider': 'AuthController.provider',
 'get /auth/:provider/callback': 'AuthController.callback',
+```
+
+Change your `config/bootstrap.js` to load your Passport providers on startup by adding the following line:
+
+```javascript
+sails.services.passport.loadStrategies();
 ```
 
 All required Passport.js middleware is contained within the `passport` policy so all you need to do is load it before your controllers in `config/policies.js`:
