@@ -102,7 +102,7 @@ As for the routes, this is what you'll need to add to your `config/routes.json` 
 'get /auth/:provider/callback': 'AuthController.callback',
 ```
 
-Change your `config/bootstrap.js` to load your Passport providers on startup by adding the following line:
+Next, change your `config/bootstrap.js` to load your Passport providers on startup by adding the following line:
 
 ```javascript
 sails.services.passport.loadStrategies();
