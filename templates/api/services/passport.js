@@ -94,6 +94,16 @@ passport.connect = function (req, query, profile, next) {
     if (err) return next(err);
 
     if (!req.user) {
+      //Add to query extra values
+      var paths = sails.config.passport[profile.provider].paths;
+      if(paths) {
+        for (var key in paths) {
+          if(profile._json.hasOwnProperty(key)) {
+            query[paths[key]] = profile._json[key];
+          }
+        }
+      }
+
       // Scenario: A new user is attempting to sign up using a third-party
       //           authentication provider.
       // Action:   Create a new user and assign them a passport.
@@ -118,6 +128,16 @@ passport.connect = function (req, query, profile, next) {
         // If the tokens have changed since the last session, update them
         if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
           passport.tokens = query.tokens;
+        }
+
+        //If values have changed since last session, update them
+        if(paths) {
+          for (var key in paths) {
+            var key = paths[key];
+            if (query.hasOwnProperty(key) && query[key] !== passport[key]) {
+              passport[key] = query[key];
+            }
+          }
         }
 
         // Save any updates to the Passport before moving on
