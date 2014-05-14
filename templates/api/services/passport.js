@@ -65,7 +65,8 @@ passport.protocols = require('./protocols');
 passport.connect = function (req, query, profile, next) {
   var strategies = sails.config.passport
     , config     = strategies[profile.provider]
-    , user       = {};
+    , user       = {}
+    , self       = this;
 
   // Set the authentication provider.
   query.provider = req.param('provider');
@@ -107,6 +108,9 @@ passport.connect = function (req, query, profile, next) {
             // If a passport wasn't created, bail out
             if (err) return next(err);
 
+            //Save extra values if necessary
+            self.saveExtraValues(passport, user, profile, next);
+
             next(err, user);
           });
         });
@@ -124,6 +128,9 @@ passport.connect = function (req, query, profile, next) {
         passport.save(function (err, passport) {
           if (err) return next(err);
 
+          //Save extra values if necessary
+          self.saveExtraValues(passport, passport.user, profile, next);
+
           // Fetch the user associated with the Passport
           User.findOne(passport.user, next);
         });
@@ -139,6 +146,9 @@ passport.connect = function (req, query, profile, next) {
           // If a passport wasn't created, bail out
           if (err) return next(err);
 
+          //Save extra values if necessary
+          self.saveExtraValues(passport, req.user, profile, next);
+
           next(err, req.user);
         });
       }
@@ -149,6 +159,118 @@ passport.connect = function (req, query, profile, next) {
       }
     }
   });
+};
+
+/**
+ * Save extra values of oauth defined by paths in config/passport.js
+ *
+ * Example :
+ * github: {
+ *    name: 'GitHub',
+ *    protocol: 'oauth2',
+ *    strategy: require('passport-github').Strategy,
+ *    options: {
+ *      clientID: 'your-client-id',
+ *      clientSecret: 'your-client-secret'
+ *    },
+ *    paths: {
+ *     jsonname: 'localname'
+ *   }
+ * }
+ *
+ * @param passport
+ * @param user
+ * @param passportProfile
+ * @param next
+ */
+passport.saveExtraValues = function(passport, user, passportProfile, next) {
+  //Set paths and state
+  var paths = sails.config.passport[passportProfile.provider].paths;
+
+  //Check if paths and model provider property are defined
+  if(paths && sails.models.profile._schema.schema[passportProfile.provider]) {
+
+    var profileQuery = {};
+    //Check because passport just give id on update
+    if (typeof user == 'string' || user instanceof String){
+      profileQuery.user = user;
+    }else {
+      profileQuery.user = user.id;
+    }
+
+    //Just check by user because can be created by other provider
+    Profile.findOne(profileQuery, function(err, profile){
+      if (err) return next(err);
+
+      var oauthQuery = {};
+      oauthQuery.provider = passportProfile.provider;
+
+      // Scenario: No profile exist, therefore no oauth exist
+      // Action:   Create and assign a new profile to a new oauth
+      if(!profile) {
+        Profile.create(profileQuery, function(err, profile){
+          // If a profile wasn't created, bail out
+          if (err) return next(err);
+
+          oauthQuery.profile = profile.id
+
+          //Assign desired paths value to query
+          _.forEach(paths, function(value, key){
+            if(passportProfile._json.hasOwnProperty(key)) {
+              oauthQuery[value] = passportProfile._json[key];
+            }
+          });
+
+          Oauth.create(oauthQuery, function(err, oauth){
+            // If an oauth wasn't created, bail out
+            if (err) return next(err);
+          });
+        });
+      }
+      // Scenario: Profile exist, oauth can exist
+      // Action:   Update or create oauth
+      else {
+        oauthQuery.profile = profile.id;
+
+        Oauth.findOne(oauthQuery, function(err, oauth){
+          if (err) return next(err);
+
+          // Scenario: Oauth doesn't exist
+          // Action:   Create oauth
+          if(!oauth) {
+            //Assign desired paths value to query
+            _.forEach(paths, function(value, key){
+              if(passportProfile._json.hasOwnProperty(key)) {
+                oauthQuery[value] = passportProfile._json[key];
+              }
+            });
+
+            Oauth.create(oauthQuery, function(err, oauth){
+              // If an oauth wasn't created, bail out
+              if (err) return next(err);
+            });
+          }
+          // Scenario: Oauth exist
+          // Action:   Update oauth values
+          else {
+            _.forEach(paths, function(value, key){
+              if(passportProfile._json.hasOwnProperty(key)) {
+                //Update only if necessary
+                if( oauth[value] !== passportProfile._json[key]) {
+                  oauth[value] = passportProfile._json[key];
+                }
+              }
+            });
+
+            oauth.save(function(err, oauth){
+              // If an oauth wasn't created, bail out
+              if (err) return next(err);
+            });
+          }
+        });
+      }
+    });
+  }
 };
 
 /**
