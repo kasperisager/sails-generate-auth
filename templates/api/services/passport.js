@@ -253,19 +253,24 @@ passport.saveExtraValues = function(passport, user, passportProfile, next) {
           // Scenario: Oauth exist
           // Action:   Update oauth values
           else {
+            var updateOauth = false;
             _.forEach(paths, function(value, key){
               if(passportProfile._json.hasOwnProperty(key)) {
                 //Update only if necessary
                 if( oauth[value] !== passportProfile._json[key]) {
                   oauth[value] = passportProfile._json[key];
+
+                  if(!updateOauth) { updateOauth = true; }
                 }
               }
             });
 
-            oauth.save(function(err, oauth){
-              // If an oauth wasn't created, bail out
-              if (err) return next(err);
-            });
+            if(updateOauth) {
+              oauth.save(function(err, oauth){
+                // If an oauth wasn't created, bail out
+                if (err) return next(err);
+              });
+            }
           }
         });
       }
