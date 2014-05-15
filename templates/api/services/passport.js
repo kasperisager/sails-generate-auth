@@ -182,9 +182,6 @@ passport.endpoint = function (req, res) {
     options.scope = strategies[provider].scope;
   }
 
-  // Load authentication strategies
-  this.loadStrategies(req);
-
   // Redirect the user to the provider for authentication. When complete,
   // the provider will redirect the user back to the application at
   //     /auth/:provider/callback
@@ -218,8 +215,6 @@ passport.callback = function (req, res, next) {
       next(new Error('Invalid action'));
     }
   } else {
-    // Load authentication strategies
-    this.loadStrategies(req);
 
     // The provider will redirect the user to this URL after approval. Finish
     // the authentication process by attempting to obtain an access token. If
@@ -249,9 +244,8 @@ passport.callback = function (req, res, next) {
  * For more information on the providers supported by Passport.js, check out:
  * http://passportjs.org/guide/providers/
  *
- * @param {Object} req
  */
-passport.loadStrategies = function (req) {
+passport.loadStrategies = function () {
   var self       = this
     , strategies = sails.config.passport;
 
@@ -278,16 +272,18 @@ passport.loadStrategies = function (req) {
       }
 
       Strategy = strategies[key].strategy;
-
+      
+      var baseUrl = sails.getBaseurl();
+      
       switch (protocol) {
         case 'oauth':
         case 'oauth2':
-          options.callbackURL = url.resolve(req.baseUrl, callback);
+          options.callbackURL = url.resolve(baseUrl, callback);
           break;
 
         case 'openid':
-          options.returnURL = url.resolve(req.baseUrl, callback);
-          options.realm     = req.baseUrl;
+          options.returnURL = url.resolve(baseUrl, callback);
+          options.realm     = baseUrl;
           options.profile   = true;
           break;
       }
