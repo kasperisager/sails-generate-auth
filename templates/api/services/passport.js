@@ -1,6 +1,6 @@
-var passport = require('passport')
-  , path     = require('path')
-  , url      = require('url');
+var path     = require('path')
+  , url      = require('url')
+  , passport = require('passport');
 
 /**
  * Passport Service
