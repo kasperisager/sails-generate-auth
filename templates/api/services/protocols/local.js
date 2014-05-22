@@ -60,6 +60,9 @@ exports.register = function (req, res, next) {
     , user     : user.id
     }, function (err, passport) {
       if (err) {
+        if(err.code === "E_VALIDATION") {
+          req.flash('error', 'Error.Passport.Password.Invalid');
+        }
         return user.destroy(function (destroyErr) {
           next(destroyErr || err);
         });
