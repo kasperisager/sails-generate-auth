@@ -59,7 +59,13 @@ exports.register = function (req, res, next) {
     , password : password
     , user     : user.id
     }, function (err, passport) {
-      next(err, user);
+      if (err) {
+        return user.destroy(function (destroyErr) {
+          next(destroyErr || err);
+        });
+      }
+
+      next(null, user);
     });
   });
 };
