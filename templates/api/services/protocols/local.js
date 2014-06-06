@@ -47,10 +47,14 @@ exports.register = function (req, res, next) {
   , email    : email
   }, function (err, user) {
     if (err) {
-      if(err.code === "E_VALIDATION"){
-        req.flash('error', err.invalidAttributes.email ? 
-          'Error.Passport.Email.Exists' : 'Error.Passport.User.Exists');
+      if (err.code === 'E_VALIDATION') {
+        if (err.invalidAttributes.email) {
+          req.flash('error', 'Error.Passport.Email.Exists');
+        } else {
+          req.flash('error', 'Error.Passport.User.Exists');
+        }
       }
+      
       return next(err);
     }
 
@@ -60,9 +64,10 @@ exports.register = function (req, res, next) {
     , user     : user.id
     }, function (err, passport) {
       if (err) {
-        if(err.code === "E_VALIDATION") {
+        if (err.code === 'E_VALIDATION') {
           req.flash('error', 'Error.Passport.Password.Invalid');
         }
+        
         return user.destroy(function (destroyErr) {
           next(destroyErr || err);
         });
@@ -92,7 +97,9 @@ exports.connect = function (req, res, next) {
     protocol : 'local'
   , user     : user.id
   }, function (err, passport) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
 
     if (!passport) {
       Passport.create({
@@ -133,7 +140,9 @@ exports.login = function (req, identifier, password, next) {
   }
 
   User.findOne(query, function (err, user) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
 
     if (!user) {
       if (isEmail) {
@@ -151,7 +160,9 @@ exports.login = function (req, identifier, password, next) {
     }, function (err, passport) {
       if (passport) {
         passport.validatePassword(password, function (err, res) {
-          if (err) return next(err);
+          if (err) {
+            return next(err);
+          }
 
           if (!res) {
             req.flash('error', 'Error.Passport.Password.Wrong');
