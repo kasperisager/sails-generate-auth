@@ -1,4 +1,5 @@
 {
+    "Error.Passport.Password.Invalid": "The provided password is invalid!",
     "Error.Passport.Password.Wrong": "Whoa, that password wasn't quite right!",
     "Error.Passport.Password.NotSet": "Oh no, you haven't set a password yet!",
     "Error.Passport.Username.NotFound": "Uhm, what's your name again?",
