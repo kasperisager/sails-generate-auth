@@ -136,6 +136,16 @@ var AuthController = {
         res.redirect('/');
       });
     });
+  },
+
+    /**
+   * Disconnect a passport from a user
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  disconnect: function (req, res) {
+    passport.disconnect(req, res);
   }
 };
 

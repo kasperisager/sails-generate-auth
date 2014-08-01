@@ -298,6 +298,30 @@ passport.loadStrategies = function () {
   });
 };
 
+/**
+ * Disconnect a passport from a user
+ *
+ * @param  {Object} req
+ * @param  {Object} res
+ */
+passport.disconnect = function (req, res, next) {
+
+  var user     = req.user
+    , provider = req.param('provider');
+
+  Passport.findOne({
+      provider   : provider,
+      user       : user.id
+    }, function (err, passport) {
+      if (err) return next(err);
+      Passport.destroy(passport.id, function passportDestroyed(error) {
+        if (err) return next(err);
+        next(req, res);        
+      });
+  });
+};
+
+
 passport.serializeUser(function (user, next) {
   next(null, user.id);
 });
