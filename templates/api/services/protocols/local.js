@@ -117,6 +117,29 @@ exports.connect = function (req, res, next) {
 };
 
 /**
+ * Disconnect a local Passport from a user
+ *
+ * @param {Object}   req
+ * @param {Object}   res
+ * @param {Function} next
+ */
+exports.disconnect = function (req, res, next) {
+  
+  var user = req.user
+
+  Passport.findOne({
+      protocol   : 'local',
+      user       : user.id
+    }, function (err, passport) {
+      if (err) return next(err);
+      Passport.destroy(passport.id, function passportDestroyed(error) {
+        if (err) return next(err);
+        next(req, res);        
+      });
+  });
+};
+
+/**
  * Validate a login request
  *
  * Looks up a user using the supplied identifier (email or username) and then
