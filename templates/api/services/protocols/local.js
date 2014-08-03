@@ -133,8 +133,11 @@ exports.disconnect = function (req, res, next) {
     }, function (err, passport) {
       if (err) return next(err);
       Passport.destroy(passport.id, function passportDestroyed(error) {
-        if (err) return next(err);
-        next(req, res);        
+        if (err) {
+          return next(err, user);
+        } else {
+          return next(null, user); 
+        }
       });
   });
 };
