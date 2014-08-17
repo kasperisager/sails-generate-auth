@@ -36,11 +36,13 @@ var AuthController = {
 
     // Get a list of available providers for use in your templates.
     Object.keys(strategies).forEach(function (key) {
-      if (key === 'local') return;
+      if (key === 'local') {
+        return;
+      }
 
       providers[key] = {
-        name : strategies[key].name
-      , slug : key
+        name: strategies[key].name
+      , slug: key
       };
     });
 
@@ -118,18 +120,22 @@ var AuthController = {
    * @param {Object} res
    */
   callback: function (req, res) {
-    function tryAgain () {
+    var tryAgain = function () {
       // If an error was thrown, redirect the user to the login which should
       // take care of rendering the error messages.
       req.flash('form', req.body);
       res.redirect(req.param('action') === 'register' ? '/register' : '/login');
-    }
+    };
 
     passport.callback(req, res, function (err, user) {
-      if (err) return tryAgain();
+      if (err) {
+        return tryAgain();
+      }
 
-      req.login(user, function (loginErr) {
-        if (loginErr) return tryAgain();
+      req.login(user, function (err) {
+        if (err) {
+          return tryAgain();
+        }
 
         // Upon successful login, send the user to the homepage were req.user
         // will available.

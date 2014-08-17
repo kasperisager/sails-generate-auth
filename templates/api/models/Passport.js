@@ -15,9 +15,7 @@ var bcrypt = require('bcrypt');
  * the user, but not the authentication data, to and from the session.
  */
 var Passport = {
-
   attributes: {
-
     // Required field: Protocol
     //
     // Defines the protocol to use for the passport. When employing the local

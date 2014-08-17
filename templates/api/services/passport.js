@@ -91,7 +91,9 @@ passport.connect = function (req, query, profile, next) {
     provider   : profile.provider
   , identifier : query.identifier.toString()
   }, function (err, passport) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
 
     if (!req.user) {
       // Scenario: A new user is attempting to sign up using a third-party
@@ -100,18 +102,25 @@ passport.connect = function (req, query, profile, next) {
       if (!passport) {
         User.create(user, function (err, user) {
           if (err) {
-            if(err.code === "E_VALIDATION"){
-              req.flash('error', err.invalidAttributes.email ? 
-                'Error.Passport.Email.Exists' : 'Error.Passport.User.Exists');
+            if (err.code === 'E_VALIDATION') {
+              if (err.invalidAttributes.email) {
+                req.flash('error', 'Error.Passport.Email.Exists');
+              }
+              else {
+                req.flash('error', 'Error.Passport.User.Exists');
+              }
             }
+
             return next(err);
           }
-          
+
           query.user = user.id;
 
           Passport.create(query, function (err, passport) {
             // If a passport wasn't created, bail out
-            if (err) return next(err);
+            if (err) {
+              return next(err);
+            }
 
             next(err, user);
           });
@@ -128,7 +137,9 @@ passport.connect = function (req, query, profile, next) {
 
         // Save any updates to the Passport before moving on
         passport.save(function (err, passport) {
-          if (err) return next(err);
+          if (err) {
+            return next(err);
+          }
 
           // Fetch the user associated with the Passport
           User.findOne(passport.user.id, next);
@@ -143,7 +154,9 @@ passport.connect = function (req, query, profile, next) {
 
         Passport.create(query, function (err, passport) {
           // If a passport wasn't created, bail out
-          if (err) return next(err);
+          if (err) {
+            return next(err);
+          }
 
           next(err, req.user);
         });
@@ -215,7 +228,6 @@ passport.callback = function (req, res, next) {
       next(new Error('Invalid action'));
     }
   } else {
-
     // The provider will redirect the user to this URL after approval. Finish
     // the authentication process by attempting to obtain an access token. If
     // access was granted, the user will be logged in. Otherwise, authentication
@@ -272,9 +284,9 @@ passport.loadStrategies = function () {
       }
 
       Strategy = strategies[key].strategy;
-      
+
       var baseUrl = sails.getBaseurl();
-      
+
       switch (protocol) {
         case 'oauth':
         case 'oauth2':
