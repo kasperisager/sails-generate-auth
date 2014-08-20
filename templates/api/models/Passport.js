@@ -90,7 +90,7 @@ var Passport = {
    * @param {Function} next
    */
   beforeUpdate: function (passport, next) {
-    if (passport.hasOwnProperty('password')) {
+    if (passport.hasOwnProperty('password') && passport.password) {
       bcrypt.hash(passport.password, 10, function (err, hash) {
         passport.password = hash;
         next(err, passport);
