@@ -15,9 +15,7 @@ var bcrypt = require('bcrypt');
  * the user, but not the authentication data, to and from the session.
  */
 var Passport = {
-
   attributes: {
-
     // Required field: Protocol
     //
     // Defines the protocol to use for the passport. When employing the local
@@ -75,7 +73,7 @@ var Passport = {
    * @param {Function} next
    */
   beforeCreate: function (passport, next) {
-    if (passport.hasOwnProperty('password')) {
+    if (passport.hasOwnProperty('password') && passport.password) {
       bcrypt.hash(passport.password, 10, function (err, hash) {
         passport.password = hash;
         next(err, passport);
@@ -92,7 +90,7 @@ var Passport = {
    * @param {Function} next
    */
   beforeUpdate: function (passport, next) {
-    if (passport.hasOwnProperty('password')) {
+    if (passport.hasOwnProperty('password') && passport.password) {
       bcrypt.hash(passport.password, 10, function (err, hash) {
         passport.password = hash;
         next(err, passport);

@@ -36,11 +36,13 @@ var AuthController = {
 
     // Get a list of available providers for use in your templates.
     Object.keys(strategies).forEach(function (key) {
-      if (key === 'local') return;
+      if (key === 'local') {
+        return;
+      }
 
       providers[key] = {
-        name : strategies[key].name
-      , slug : key
+        name: strategies[key].name
+      , slug: key
       };
     });
 
@@ -118,7 +120,7 @@ var AuthController = {
    * @param {Object} res
    */
   callback: function (req, res) {
-    function tryAgain (err) {
+    var tryAgain = function () {
 
       // Only certain error messages are returned via req.flash('error', someError)
       // because we shouldn't expose internal authorization errors to the user.
@@ -144,13 +146,17 @@ var AuthController = {
       } else if (action === 'disconnect') {
         res.redirect('back');
       }
-    }
+    };
 
     passport.callback(req, res, function (err, user) {
-      if (err) return tryAgain(err);
+      if (err) {
+        return tryAgain();
+      }
 
-      req.login(user, function (loginErr) {
-        if (loginErr) return tryAgain();
+      req.login(user, function (err) {
+        if (err) {
+          return tryAgain();
+        }
 
         // Upon successful login, send the user to the homepage were req.user
         // will available.

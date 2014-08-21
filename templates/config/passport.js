@@ -15,7 +15,6 @@
  */
 
 module.exports.passport = {
-
   local: {
     strategy: require('passport-local').Strategy
   },
@@ -55,5 +54,4 @@ module.exports.passport = {
     protocol: 'openid',
     strategy: require('passport-google').Strategy
   }
-
 };
