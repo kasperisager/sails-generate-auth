@@ -76,10 +76,10 @@ At the very least, your User model needs to look like this:
 
 ```javascript
 module.exports = {
-  
+
   // Enforce model schema in the case of schemaless databases
-  schema: true, 
-  
+  schema: true,
+
   attributes: {
     username  : { type: 'string', unique: true },
     email     : { type: 'email',  unique: true },
@@ -93,14 +93,14 @@ As for the routes, this is what you'll need to add to your `config/routes.json` 
 ```javascript
 'get /login': 'AuthController.login',
 'get /logout': 'AuthController.logout',
-'get /register': 'AuthController.register', 
+'get /register': 'AuthController.register',
 
 'post /auth/local': 'AuthController.callback',
 'post /auth/local/:action': 'AuthController.callback',
 
 'get /auth/:provider': 'AuthController.provider',
 'get /auth/:provider/callback': 'AuthController.callback',
-'get /auth/:provider/:action': 'AuthController.callback',  
+'get /auth/:provider/:action': 'AuthController.callback',
 ```
 
 Next, change your `config/bootstrap.js` to load your Passport providers on startup by adding the following line:

@@ -54,7 +54,7 @@ exports.register = function (req, res, next) {
           req.flash('error', 'Error.Passport.User.Exists');
         }
       }
-      
+
       return next(err);
     }
 
@@ -67,7 +67,7 @@ exports.register = function (req, res, next) {
         if (err.code === 'E_VALIDATION') {
           req.flash('error', 'Error.Passport.Password.Invalid');
         }
-        
+
         return user.destroy(function (destroyErr) {
           next(destroyErr || err);
         });
@@ -113,32 +113,6 @@ exports.connect = function (req, res, next) {
     else {
       next(null, user);
     }
-  });
-};
-
-/**
- * Disconnect a local Passport from a user
- *
- * @param {Object}   req
- * @param {Object}   res
- * @param {Function} next
- */
-exports.disconnect = function (req, res, next) {
-  
-  var user = req.user
-
-  Passport.findOne({
-      protocol   : 'local',
-      user       : user.id
-    }, function (err, passport) {
-      if (err) return next(err);
-      Passport.destroy(passport.id, function passportDestroyed(error) {
-        if (err) {
-          return next(err, user);
-        } else {
-          return next(null, user); 
-        }
-      });
   });
 };
 

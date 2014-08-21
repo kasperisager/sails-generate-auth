@@ -159,7 +159,7 @@ var AuthController = {
     });
   },
 
-    /**
+  /**
    * Disconnect a passport from a user
    *
    * @param {Object} req
