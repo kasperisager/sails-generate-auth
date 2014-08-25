@@ -64,7 +64,6 @@ passport.protocols = require('./protocols');
  */
 passport.connect = function (req, query, profile, next) {
   var strategies = sails.config.passport
-    , config     = strategies[profile.provider]
     , user       = {};
 
   // Set the authentication provider.
@@ -88,8 +87,8 @@ passport.connect = function (req, query, profile, next) {
   }
 
   Passport.findOne({
-    provider   : profile.provider
-  , identifier : query.identifier.toString()
+	provider: profile.provider || query.provider, //profile.provider is undefined for passport-google so use the info from the query as a backup
+    identifier : query.identifier.toString()
   }, function (err, passport) {
     if (err) {
       return next(err);
