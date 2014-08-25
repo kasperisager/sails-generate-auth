@@ -54,7 +54,7 @@ exports.register = function (req, res, next) {
           req.flash('error', 'Error.Passport.User.Exists');
         }
       }
-      
+
       return next(err);
     }
 
@@ -67,7 +67,7 @@ exports.register = function (req, res, next) {
         if (err.code === 'E_VALIDATION') {
           req.flash('error', 'Error.Passport.Password.Invalid');
         }
-        
+
         return user.destroy(function (destroyErr) {
           next(destroyErr || err);
         });

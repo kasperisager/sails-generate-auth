@@ -224,15 +224,22 @@ passport.callback = function (req, res, next) {
     else if (action === 'connect' && req.user) {
       this.protocols.local.connect(req, res, next);
     }
+    else if (action === 'disconnect' && req.user) {
+      this.protocols.local.disconnect(req, res, next);
+    }    
     else {
       next(new Error('Invalid action'));
     }
   } else {
-    // The provider will redirect the user to this URL after approval. Finish
-    // the authentication process by attempting to obtain an access token. If
-    // access was granted, the user will be logged in. Otherwise, authentication
-    // has failed.
-    this.authenticate(provider, next)(req, res, req.next);
+    if (action === 'disconnect' && req.user) {
+      this.disconnect(req, res, next) ;
+    } else {
+      // The provider will redirect the user to this URL after approval. Finish
+      // the authentication process by attempting to obtain an access token. If
+      // access was granted, the user will be logged in. Otherwise, authentication
+      // has failed.
+      this.authenticate(provider, next)(req, res, req.next);
+    }
   }
 };
 
@@ -309,6 +316,30 @@ passport.loadStrategies = function () {
     }
   });
 };
+
+/**
+ * Disconnect a passport from a user
+ *
+ * @param  {Object} req
+ * @param  {Object} res
+ */
+passport.disconnect = function (req, res, next) {
+
+  var user     = req.user
+    , provider = req.param('provider');
+
+  Passport.findOne({
+      provider   : provider,
+      user       : user.id
+    }, function (err, passport) {
+      if (err) return next(err);
+      Passport.destroy(passport.id, function passportDestroyed(error) {
+        if (err) return next(err);
+        next(null, user);
+      });
+  });
+};
+
 
 passport.serializeUser(function (user, next) {
   next(null, user.id);

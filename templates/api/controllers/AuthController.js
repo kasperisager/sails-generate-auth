@@ -121,10 +121,31 @@ var AuthController = {
    */
   callback: function (req, res) {
     var tryAgain = function () {
-      // If an error was thrown, redirect the user to the login which should
-      // take care of rendering the error messages.
+
+      // Only certain error messages are returned via req.flash('error', someError)
+      // because we shouldn't expose internal authorization errors to the user.
+      // We do return a generic error and the original request body.
+      var flashError = req.flash('error')[0];
+
+      if (err && !flashError ) {
+        req.flash('error', 'Error.Passport.Generic');
+      } else if (flashError) {
+        req.flash('error', flashError);
+      }
       req.flash('form', req.body);
-      res.redirect(req.param('action') === 'register' ? '/register' : '/login');
+
+      // If an error was thrown, redirect the user to the
+      // login, register or disconnect action initiator view.
+      // These views should take care of rendering the error messages.
+      var action = req.param('action');
+
+      if (action === 'register') {
+        res.redirect('/register');
+      } else if (action === 'login') {
+        res.redirect('/login');
+      } else if (action === 'disconnect') {
+        res.redirect('back');
+      }
     };
 
     passport.callback(req, res, function (err, user) {
@@ -142,6 +163,16 @@ var AuthController = {
         res.redirect('/');
       });
     });
+  },
+
+  /**
+   * Disconnect a passport from a user
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  disconnect: function (req, res) {
+    passport.disconnect(req, res);
   }
 };
 
