@@ -115,7 +115,7 @@ All required Passport.js middleware is contained within the `passport` policy so
 '*': [ 'passport' ]
 ```
 
-Lastly, you will need to install the [`passport`](https://npmjs.org/package/passport), [`bcrypt`](https://npmjs.org/package/passport) and [`validator`](https://npmjs.org/package/validator) packages from NPM for everything to work correctly.
+Lastly, you will need to install the [`passport`](https://npmjs.org/package/passport), [`bcryptjs`](https://www.npmjs.org/package/bcryptjs) and [`validator`](https://npmjs.org/package/validator) packages from NPM for everything to work correctly.
 
 If you want to make use of the error messages, you'll also need to add the following locale definitions (example translations provided):
 
