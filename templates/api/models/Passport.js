@@ -1,4 +1,21 @@
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
+
+/**
+ * Hash a passport password.
+ *
+ * @param {Object}   password
+ * @param {Function} next
+ */
+function hashPassword (passport, next) {
+  if (passport.password) {
+    bcrypt.hash(passport.password, 10, function (err, hash) {
+      passport.password = hash;
+      next(err, passport);
+    });
+  } else {
+    next(null, passport);
+  }
+}
 
 /**
  * Passport Model
@@ -73,14 +90,7 @@ var Passport = {
    * @param {Function} next
    */
   beforeCreate: function (passport, next) {
-    if (passport.hasOwnProperty('password') && passport.password) {
-      bcrypt.hash(passport.password, 10, function (err, hash) {
-        passport.password = hash;
-        next(err, passport);
-      });
-    } else {
-      next(null, passport);
-    }
+    hashPassword(next);
   },
 
   /**
@@ -90,14 +100,7 @@ var Passport = {
    * @param {Function} next
    */
   beforeUpdate: function (passport, next) {
-    if (passport.hasOwnProperty('password') && passport.password) {
-      bcrypt.hash(passport.password, 10, function (err, hash) {
-        passport.password = hash;
-        next(err, passport);
-      });
-    } else {
-      next(null, passport);
-    }
+    hashPassword(next);
   }
 };
 
