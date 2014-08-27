@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcryptjs');
 
 /**
  * Passport Model
@@ -74,11 +74,9 @@ var Passport = {
    */
   beforeCreate: function (passport, next) {
     if (passport.hasOwnProperty('password') && passport.password) {
-      bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(passport.password, salt, function () { }, function (err, hash) {
-          passport.password = hash;
-          next(err, passport);
-        });
+      bcrypt.hash(passport.password, salt, function () { }, function (err, hash) {
+        passport.password = hash;
+        next(err, passport);
       });
     } else {
       next(null, passport);
@@ -93,11 +91,9 @@ var Passport = {
    */
   beforeUpdate: function (passport, next) {
     if (passport.hasOwnProperty('password') && passport.password) {
-      bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(passport.password, salt, function () { }, function (err, hash) {
-          passport.password = hash;
-          next(err, passport);
-        });
+      bcrypt.hash(passport.password, salt, function () { }, function (err, hash) {
+        passport.password = hash;
+        next(err, passport);
       });
     } else {
       next(null, passport);
