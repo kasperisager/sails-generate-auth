@@ -90,7 +90,7 @@ var Passport = {
    * @param {Function} next
    */
   beforeCreate: function (passport, next) {
-    hashPassword(next);
+    hashPassword(passport, next);
   },
 
   /**
@@ -100,7 +100,7 @@ var Passport = {
    * @param {Function} next
    */
   beforeUpdate: function (passport, next) {
-    hashPassword(next);
+    hashPassword(passport, next);
   }
 };
 
