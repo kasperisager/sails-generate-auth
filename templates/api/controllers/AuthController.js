@@ -127,7 +127,7 @@ var AuthController = {
       // We do return a generic error and the original request body.
       var flashError = req.flash('error')[0];
 
-      if (err && !flashError ) {
+      if ((typeof err != 'undefined') && (!flashError)) {
         req.flash('error', 'Error.Passport.Generic');
       } else if (flashError) {
         req.flash('error', flashError);
@@ -141,10 +141,10 @@ var AuthController = {
 
       if (action === 'register') {
         res.redirect('/register');
-      } else if (action === 'login') {
-        res.redirect('/login');
       } else if (action === 'disconnect') {
         res.redirect('back');
+      } else {
+        res.redirect('/login');
       }
     };
 
