@@ -136,6 +136,8 @@ var AuthController = {
         req.flash('error', 'Error.Passport.Generic');
       }
 
+      req.flash('form', req.body);
+
       // If an error was thrown, redirect the user to the
       // login, register or disconnect action initiator view.
       // These views should take care of rendering the error messages.
