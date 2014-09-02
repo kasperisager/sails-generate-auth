@@ -104,10 +104,10 @@ passport.connect = function (req, query, profile, next) {
           if (err) {
             if (err.code === 'E_VALIDATION') {
               if (err.invalidAttributes.email) {
-                req.flash('error', 'Error.Passport.Email.Exists');
+                req.flash('validationError', {email: [{unique: 'Error.Passport.Email.Exists'}]});
               }
               else {
-                req.flash('error', 'Error.Passport.User.Exists');
+                req.flash('validationError', {username: [{unique: 'Error.Passport.User.Exists'}]});
               }
             }
 
@@ -226,7 +226,7 @@ passport.callback = function (req, res, next) {
     }
     else if (action === 'disconnect' && req.user) {
       this.protocols.local.disconnect(req, res, next);
-    }    
+    }
     else {
       next(new Error('Invalid action'));
     }
