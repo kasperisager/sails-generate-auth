@@ -64,11 +64,21 @@ passport.protocols = require('./protocols');
  */
 passport.connect = function (req, query, profile, next) {
   var strategies = sails.config.passport
-    , config     = strategies[profile.provider]
-    , user       = {};
+    , user       = {}
+    , provider;
 
-  // Set the authentication provider.
+  // Get the authentication provider from the query.
   query.provider = req.param('provider');
+
+  // Use profile.provider or fallback to the query.provider if it is undefined
+  // as is the case for OpenID, for example
+  provider = profile.provider || query.provider;
+
+  // If the provider cannot be identified we cannot match it to a passport so
+  // throw an error and let whoever's next in line take care of it.
+  if (!provider){
+    return next(new Error('No authentication provider was identified.'));
+  }
 
   // If the profile object contains a list of emails, grab the first one and
   // add it to the user.
@@ -88,7 +98,7 @@ passport.connect = function (req, query, profile, next) {
   }
 
   Passport.findOne({
-    provider   : profile.provider
+    provider: provider
   , identifier : query.identifier.toString()
   }, function (err, passport) {
     if (err) {
