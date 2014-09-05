@@ -98,8 +98,8 @@ passport.connect = function (req, query, profile, next) {
   }
 
   Passport.findOne({
-	provider: provider,
-    identifier : query.identifier.toString()
+    provider: provider
+  , identifier : query.identifier.toString()
   }, function (err, passport) {
     if (err) {
       return next(err);
