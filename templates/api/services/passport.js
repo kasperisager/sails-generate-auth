@@ -63,7 +63,7 @@ passport.protocols = require('./protocols');
  * @param {Function} next
  */
 passport.connect = function (req, query, profile, next) {
-  var user       = {}
+  var user = {}
     , provider;
 
   // Get the authentication provider from the query.
