@@ -139,12 +139,16 @@ var AuthController = {
       // These views should take care of rendering the error messages.
       var action = req.param('action');
 
-      if (action === 'register') {
+      switch (action) {
+      case 'register':
         res.redirect('/register');
-      } else if (action === 'login') {
+        break;
+      case 'login':
         res.redirect('/login');
-      } else if (action === 'disconnect') {
+        break;
+      case 'disconnect':
         res.redirect('back');
+        break;
       }
     }
 
