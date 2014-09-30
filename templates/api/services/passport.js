@@ -334,7 +334,6 @@ passport.loadStrategies = function () {
  * @param  {Object} res
  */
 passport.disconnect = function (req, res, next) {
-
   var user     = req.user
     , provider = req.param('provider');
 
