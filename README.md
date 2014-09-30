@@ -4,7 +4,6 @@
 
 [![Release](http://img.shields.io/npm/v/sails-generate-auth.svg?style=flat)](https://www.npmjs.org/package/sails-generate-auth) [![Code Climate](http://img.shields.io/codeclimate/github/kasperisager/sails-generate-auth.svg?style=flat)](https://codeclimate.com/github/kasperisager/sails-generate-auth) [![Dependency Status](http://img.shields.io/gemnasium/kasperisager/sails-generate-auth.svg?style=flat)](https://gemnasium.com/kasperisager/sails-generate-auth) [![Downloads](http://img.shields.io/npm/dm/sails-generate-auth.svg?style=flat)](https://www.npmjs.org/package/sails-generate-auth)
 
-
 A Passport.js-based authentication generator for use with the Sails command-line interface.
 
 So, how easy is it to use? Say you wanted to add Twitter authentication to our app for example – this is all you'd need:
@@ -13,6 +12,7 @@ So, how easy is it to use? Say you wanted to add Twitter authentication to our a
 twitter: {
   name: 'Twitter',
   protocol: 'oauth',
+  strategy: require('passport-twitter').Strategy,
   options: {
     consumerKey: 'your-consumer-key',
     consumerSecret: 'your-consumer-secret'
@@ -22,11 +22,9 @@ twitter: {
 
 This sets you up with an authentication endpoint at `/auth/twitter` as well as a callback at `/auth/twitter/callback` - easy, huh?
 
-
 Behind the scenes, the service uses the concept of "Passports" to store everything related to user authentication. This allows you to keep your own models free of authentication-related bloat as well as help you optimize your application as the data is queried separately only when authentication happens.
 
 I do encourage you to read through the entire source – everything's very well documented, so it should be an easy read.
-
 
 ### Installation
 
@@ -35,15 +33,14 @@ Certain generators are installed by default in Sails, but they can be overridden
 In order to use a generator you will need the latest Sails, ~0.10, which can be installed with:
 
 ```sh
-npm install sails@beta -g
+npm install sails -g
 ```
 
-<!--
+Once that's all set, install the generator:
+
 ```sh
 $ npm install sails-generate-auth
 ```
--->
-
 
 ### Production Usage
 
@@ -70,25 +67,9 @@ sailsgen(require('sails-generate-auth'), scope, function (err) {
 
 ##### Requirements
 
-The only  requirements, besides running the generator and adding some providers in `config/passport.js`, is having a model named "User" in your application as well as a set of routes that exposes the authentication endpoints. You'll also need to load the Passport.js middleware for all your controllers and install the required NPM packages. Lastly, you need to add a line to `config/bootstrap.js` to load your Passport providers on startup.
+The only  requirements, besides running the generator and adding some providers in `config/passport.js`, is having a set of routes that exposes the authentication endpoints. You'll also need to load the Passport.js middleware for all your controllers and install the required npm packages. Lastly, you need to add a line to `config/bootstrap.js` to load your Passport providers on startup.
 
-At the very least, your User model needs to look like this:
-
-```javascript
-module.exports = {
-
-  // Enforce model schema in the case of schemaless databases
-  schema: true,
-
-  attributes: {
-    username  : { type: 'string', unique: true },
-    email     : { type: 'email',  unique: true },
-    passports : { collection: 'Passport', via: 'user' }
-  }
-};
-```
-
-As for the routes, this is what you'll need to add to your `config/routes.json` file:
+For the routes, this is what you'll need to add to your `config/routes.json` file:
 
 ```javascript
 'get /login': 'AuthController.login',
@@ -115,7 +96,7 @@ All required Passport.js middleware is contained within the `passport` policy so
 '*': [ 'passport' ]
 ```
 
-Lastly, you will need to install the [`passport`](https://npmjs.org/package/passport), [`bcryptjs`](https://npmjs.org/package/bcryptjs) and [`validator`](https://npmjs.org/package/validator) packages from NPM for everything to work correctly.
+Lastly, you will need to install the [`passport`](https://npmjs.org/package/passport), [`bcryptjs`](https://npmjs.org/package/bcryptjs) and [`validator`](https://npmjs.org/package/validator) packages from npm for everything to work correctly.
 
 If you want to make use of the error messages, you'll also need to add the following locale definitions (example translations provided):
 
