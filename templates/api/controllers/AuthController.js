@@ -140,15 +140,15 @@ var AuthController = {
       var action = req.param('action');
 
       switch (action) {
-      case 'register':
-        res.redirect('/register');
-        break;
-      case 'login':
-        res.redirect('/login');
-        break;
-      case 'disconnect':
-        res.redirect('back');
-        break;
+        case 'register':
+          res.redirect('/register');
+          break;
+        case 'login':
+          res.redirect('/login');
+          break;
+        case 'disconnect':
+          res.redirect('back');
+          break;
       }
     }
 
