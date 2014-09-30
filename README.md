@@ -128,27 +128,9 @@ If you want to make use of the error messages, you'll also need to add the follo
 }
 ```
 
-
-### Development
-
-To get started quickly and see this generator in action, run the `bin/index.js` script:
-
-```sh
-$ git clone YOUR_FORK_OF_THIS_REPO sails-generate-auth-fork
-$ cd sails-generate-auth-fork
-$ npm install
-$ node ./bin
-```
-
-`bin/index.js` is a simple script, bundled only for convenience, that runs the generator with hard-coded scope variables.  Please feel free to modify that file however you like!  Also see `CONTRIBUTING.md` for more information on overriding/enhancing generators.
-
-
-
 ### Questions?
 
 See `FAQ.md`.
-
-
 
 ### More Resources
 
