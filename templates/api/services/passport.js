@@ -97,7 +97,7 @@ passport.connect = function (req, query, profile, next) {
   }
 
   Passport.findOne({
-    provider: provider
+    provider   : provider
   , identifier : query.identifier.toString()
   }, function (err, passport) {
     if (err) {
@@ -235,7 +235,7 @@ passport.callback = function (req, res, next) {
     }
     else if (action === 'disconnect' && req.user) {
       this.protocols.local.disconnect(req, res, next);
-    }    
+    }
     else {
       next(new Error('Invalid action'));
     }
@@ -262,6 +262,7 @@ passport.callback = function (req, res, next) {
     github: {
       name: 'GitHub',
       protocol: 'oauth2',
+      strategy: require('passport-github').Strategy
       scope: [ 'user', 'gist' ]
       options: {
         clientID: 'CLIENT_ID',
@@ -338,17 +339,22 @@ passport.disconnect = function (req, res, next) {
     , provider = req.param('provider');
 
   Passport.findOne({
-      provider   : provider,
-      user       : user.id
+      provider : provider,
+      user     : user.id
     }, function (err, passport) {
-      if (err) return next(err);
-      Passport.destroy(passport.id, function passportDestroyed(error) {
-        if (err) return next(err);
+      if (err) {
+        return next(err);
+      }
+
+      Passport.destroy(passport.id, function (error) {
+        if (err) {
+          return next(err);
+        }
+
         next(null, user);
       });
   });
 };
-
 
 passport.serializeUser(function (user, next) {
   next(null, user.id);
