@@ -51,7 +51,11 @@ module.exports.passport = {
 
   google: {
     name: 'Google',
-    protocol: 'openid',
-    strategy: require('passport-google').Strategy
+    protocol: 'oauth2',
+    strategy: require('passport-google-oauth').OAuth2Strategy,
+    options: {
+      clientID: 'your-client-id',
+      clientSecret: 'your-client-secret'
+    }
   }
 };
