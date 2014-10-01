@@ -143,12 +143,11 @@ var AuthController = {
         case 'register':
           res.redirect('/register');
           break;
-        case 'login':
-          res.redirect('/login');
-          break;
         case 'disconnect':
           res.redirect('back');
           break;
+        default:
+          res.redirect('/login');
       }
     }
 
