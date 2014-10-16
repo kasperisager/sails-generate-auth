@@ -64,7 +64,8 @@ passport.protocols = require('./protocols');
  */
 passport.connect = function (req, query, profile, next) {
   var user = {}
-    , provider;
+    , provider
+    , identifier;
 
   // Get the authentication provider from the query.
   query.provider = req.param('provider');
@@ -95,10 +96,15 @@ passport.connect = function (req, query, profile, next) {
   if (!user.username && !user.email) {
     return next(new Error('Neither a username nor email was available'));
   }
+  
+  // Some services doesn't provide id e.g. Bitbucket, so identifier will be null
+  if (query.identifier) {
+		identifier = query.identifier.toString();
+	}
 
   Passport.findOne({
     provider   : provider
-  , identifier : query.identifier.toString()
+  , identifier : identifier
   }, function (err, passport) {
     if (err) {
       return next(err);
