@@ -67,6 +67,8 @@ The best thing about maintaining lots of small modules is that it's trivial to o
 If you feel that yours is the better approach, and should be the default, share it with the community via IRC, Twitter, Google Groups, etc.  Also, feel free to let the core Sails/Waterline team know and we'll take it into consideration.
 
 
+### What is the proper way of configuring policy.js to check for 'isAuthenticated' even if not using session authentication like google, twitter, etc which uses API authentication? 
+
 
 ### More questions?
 
