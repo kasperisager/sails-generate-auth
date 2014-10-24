@@ -1,7 +1,7 @@
 /**
  * Passport configuration
  *
- * This if the configuration for your Passport.js setup and it where you'd
+ * This is the configuration for your Passport.js setup and where you
  * define the authentication strategies you want your application to employ.
  *
  * I have tested the service with all of the providers listed below - if you

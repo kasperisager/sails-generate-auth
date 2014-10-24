@@ -35,11 +35,11 @@ passport.protocols = require('./protocols');
  * This is where most of the magic happens when a user is authenticating with a
  * third-party provider. What it does, is the following:
  *
- *   1. Given a provider and an identifier, find a mathcing Passport.
+ *   1. Given a provider and an identifier, find a matching Passport.
  *   2. From here, the logic branches into two paths.
  *
  *     - A user is not currently logged in:
- *       1. If a Passport wassn't found, create a new user as well as a new
+ *       1. If a Passport wasn't found, create a new user as well as a new
  *          Passport that will be assigned to the user.
  *       2. If a Passport was found, get the user associated with the passport.
  *
