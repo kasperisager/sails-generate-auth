@@ -88,7 +88,7 @@ passport.connect = function (req, query, profile, next) {
   if (profile.hasOwnProperty('username')) {
     user.username = profile.username;
   }
-  // If the profile object contains a name instand of username
+  // If the profile object contains a name instead of username
   if (profile.hasOwnProperty('name')) {
     user.username = profile.name;
   }
