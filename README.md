@@ -12,6 +12,7 @@ So, how easy is it to use? Say you wanted to add Twitter authentication to our a
 twitter: {
   name: 'Twitter',
   protocol: 'oauth',
+  scope: 'https://www.googleapis.com/auth/plus.me https://www.google.com/m8/feeds https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
   strategy: require('passport-twitter').Strategy,
   options: {
     consumerKey: 'your-consumer-key',
