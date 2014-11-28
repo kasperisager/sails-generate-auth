@@ -116,6 +116,18 @@ If you want to make use of the error messages, you'll also need to add the follo
 }
 ```
 
+sails-generate-auth, by default doesn't deny access to controllers if the user is not logged in. For that, you can create another policy (for example: `sessionAuth`) in `api/policies/` and add it to `config/policies` as follows:
+
+``` javascript
+ '*': ['passport', 'sessionAuth'],
+
+ 'auth': {
+    '*': ['passport']
+  }
+```
+
+This helps to restrict access all the controllers except auth controllers such as login, logout and register, if the user is not logged in. See this [issue](https://github.com/kasperisager/sails-generate-auth/issues/112) and [stackoverflow answer](http://stackoverflow.com/questions/27168229/passport-authentication-not-working-in-sails-js-application/27182970#27182970) for more details.
+
 ### Questions?
 
 See `FAQ.md`.
