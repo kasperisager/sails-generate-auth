@@ -126,7 +126,9 @@ sails-generate-auth, by default doesn't deny access to controllers if the user i
   }
 ```
 
-This helps to restrict access all the controllers except auth controllers such as login, logout and register, if the user is not logged in. See this [issue](https://github.com/kasperisager/sails-generate-auth/issues/112) and [stackoverflow answer](http://stackoverflow.com/questions/27168229/passport-authentication-not-working-in-sails-js-application/27182970#27182970) for more details.
+This helps to restrict access to all the controller except auth controller actions such as login, logout and register, if the user is not logged in. See this [issue](https://github.com/kasperisager/sails-generate-auth/issues/112) and [stackoverflow answer](http://stackoverflow.com/questions/27168229/passport-authentication-not-working-in-sails-js-application/27182970#27182970) for more details.
+
+For controller actions which are accessed via APIs, you can add `bearerAuth` (available in `api/policies`). This policy ensures that the API is secure and only requests containing a bearer token can access them.
 
 ### Questions?
 
