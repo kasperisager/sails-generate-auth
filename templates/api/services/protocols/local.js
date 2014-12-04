@@ -58,10 +58,15 @@ exports.register = function (req, res, next) {
       return next(err);
     }
 
+    // Generating accessToken for API authentication by encoding username and
+    // created at time using base64
+    var token = new Buffer(user.username + user.createdAt).toString('base64');
+
     Passport.create({
-      protocol : 'local'
-    , password : password
-    , user     : user.id
+      protocol    : 'local'
+    , password    : password
+    , user        : user.id
+    , accessToken : token
     }, function (err, passport) {
       if (err) {
         if (err.code === 'E_VALIDATION') {
