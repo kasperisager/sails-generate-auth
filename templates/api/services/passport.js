@@ -297,7 +297,7 @@ passport.loadStrategies = function () {
         , callback = strategies[key].callback;
 
       if (!callback) {
-        callback = path.join('auth', key, 'callback');
+        callback = 'auth/' + key + '/callback';
       }
 
       Strategy = strategies[key].strategy;
