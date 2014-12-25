@@ -1,4 +1,5 @@
 var validator = require('validator');
+var crypto    = require('crypto');
 
 /**
  * Local Authentication Protocol
@@ -58,9 +59,8 @@ exports.register = function (req, res, next) {
       return next(err);
     }
 
-    // Generating accessToken for API authentication by encoding username and
-    // created at time using base64
-    var token = new Buffer(user.username + user.createdAt).toString('base64');
+    // Generating accessToken for API authentication
+    var token = crypto.randomBytes(48).toString('base64');
 
     Passport.create({
       protocol    : 'local'
