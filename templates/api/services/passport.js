@@ -1,3 +1,4 @@
+
 var path     = require('path')
   , url      = require('url')
   , passport = require('passport');
@@ -296,19 +297,7 @@ passport.loadStrategies = function () {
       
       if (strategies.bearer) {
         Strategy = strategies[key].strategy;
-        self.use(new Strategy(function(token, done) {
-        
-          Passport.findOne({ accessToken: token }, function(err, passport) {
-            if (err) { return done(err); }
-            if (!passport) { return done(null, false); }
-            User.findById(passport.user, function(err, user) {
-              if (err) { return done(err); }
-              if (!user) { return done(null, false); }
-              return done(null, user, { scope: 'all' });
-            });
-          });
-        
-        }));
+        self.use(new Strategy(self.protocols.bearer.authorize));
       }
       
     } else {
