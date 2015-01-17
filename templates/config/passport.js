@@ -57,5 +57,16 @@ module.exports.passport = {
       clientID: 'your-client-id',
       clientSecret: 'your-client-secret'
     }
+  },
+
+  cas: {
+    name: 'CAS',
+    protocol: 'cas',
+    strategy: require('passport-cas').Strategy,
+    options: {
+      ssoBaseURL: 'http://your-cas-url',
+      serverBaseURL: 'http://localhost:1337',
+      serviceURL: 'http://localhost:1337/auth/cas/callback'
+    }
   }
 };
