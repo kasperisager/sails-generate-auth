@@ -287,6 +287,9 @@ passport.loadStrategies = function () {
       // emails, we'll set the username field to something more generic.
       _.extend(options, { usernameField: 'identifier' });
 
+      //Let users override the username and passwordField from the options
+      _.extend(options, strategies[key].options || {});
+
       // Only load the local strategy if it's enabled in the config
       if (strategies.local) {
         Strategy = strategies[key].strategy;
@@ -305,7 +308,7 @@ passport.loadStrategies = function () {
         , callback = strategies[key].callback;
 
       if (!callback) {
-        callback = path.join('auth', key, 'callback');
+        callback = 'auth/' + key + '/callback';
       }
 
       Strategy = strategies[key].strategy;
