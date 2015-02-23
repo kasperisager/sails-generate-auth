@@ -162,7 +162,7 @@ var AuthController = {
 
       req.login(user, function (err) {
         if (err) {
-          return tryAgain();
+          return tryAgain(err);
         }
         
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
