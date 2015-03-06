@@ -93,7 +93,7 @@ sails.services.passport.loadStrategies();
 All required Passport.js middleware is contained within the `passport` policy so all you need to do is load it before your controllers in `config/policies.js`:
 
 ```javascript
-'*': [ 'passport' ]
+'*': [ 'passport', /* your auth dependant policies go here */ ]
 ```
 
 Lastly, you will need to install the [`passport`](https://npmjs.org/package/passport), [`bcryptjs`](https://npmjs.org/package/bcryptjs) and [`validator`](https://npmjs.org/package/validator) packages from npm for everything to work correctly.
