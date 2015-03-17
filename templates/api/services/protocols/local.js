@@ -29,17 +29,17 @@ exports.register = function (req, res, next) {
     , password = req.param('password');
 
   if (!email) {
-    req.flash('error', 'Error.Passport.Email.Missing');
+    req.flash('validationError', {email: [{required: 'Error.Passport.Email.Missing'}]});
     return next(new Error('No email was entered.'));
   }
 
   if (!username) {
-    req.flash('error', 'Error.Passport.Username.Missing');
+    req.flash('validationError', {username: [{required: 'Error.Passport.Username.Missing'}]});
     return next(new Error('No username was entered.'));
   }
 
   if (!password) {
-    req.flash('error', 'Error.Passport.Password.Missing');
+    req.flash('validationError', {password: [{required: 'Error.Passport.Password.Missing'}]});
     return next(new Error('No password was entered.'));
   }
 
@@ -50,9 +50,9 @@ exports.register = function (req, res, next) {
     if (err) {
       if (err.code === 'E_VALIDATION') {
         if (err.invalidAttributes.email) {
-          req.flash('error', 'Error.Passport.Email.Exists');
+          req.flash('validationError', {email: [{unique: 'Error.Passport.Email.Exists'}]});
         } else {
-          req.flash('error', 'Error.Passport.User.Exists');
+          req.flash('validationError', {username: [{unique: 'Error.Passport.User.Exists'}]});
         }
       }
 
@@ -70,7 +70,7 @@ exports.register = function (req, res, next) {
     }, function (err, passport) {
       if (err) {
         if (err.code === 'E_VALIDATION') {
-          req.flash('error', 'Error.Passport.Password.Invalid');
+          req.flash('validationError', {password: [{minlength: 'Error.Passport.Password.Invalid'}]});
         }
 
         return user.destroy(function (destroyErr) {

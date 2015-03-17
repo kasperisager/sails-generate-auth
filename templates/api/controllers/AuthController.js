@@ -126,16 +126,20 @@ var AuthController = {
   callback: function (req, res) {
     function tryAgain (err) {
 
-      // Only certain error messages are returned via req.flash('error', someError)
-      // because we shouldn't expose internal authorization errors to the user.
-      // We do return a generic error and the original request body.
-      var flashError = req.flash('error')[0];
+      var flashError = req.flash('error');
+      var flashValidationError = req.flash('validationError');
 
-      if (err && !flashError ) {
-        req.flash('error', 'Error.Passport.Generic');
-      } else if (flashError) {
+      // Return input validation errors.
+      if (flashValidationError.length > 0) {
+        req.flash('validationError', flashValidationError);
+      // Then business logic errors.
+      } else if (flashError.length > 0) {
         req.flash('error', flashError);
+      // Finally, user unsafe error messages are returned as a generic error.
+      } else if (err) {
+        req.flash('error', 'Error.Passport.Generic');
       }
+
       req.flash('form', req.body);
 
       // If an error was thrown, redirect the user to the
