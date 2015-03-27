@@ -235,7 +235,7 @@ passport.callback = function (req, res, next) {
       this.protocols.local.connect(req, res, next);
     }
     else if (action === 'disconnect' && req.user) {
-      this.protocols.local.disconnect(req, res, next);
+      this.disconnect(req, res, next);
     }
     else {
       next(new Error('Invalid action'));
@@ -297,12 +297,12 @@ passport.loadStrategies = function () {
         self.use(new Strategy(options, self.protocols.local.login));
       }
     } else if (key === 'bearer') {
-      
+
       if (strategies.bearer) {
         Strategy = strategies[key].strategy;
         self.use(new Strategy(self.protocols.bearer.authorize));
       }
-      
+
     } else {
       var protocol = strategies[key].protocol
         , callback = strategies[key].callback;
@@ -346,23 +346,24 @@ passport.loadStrategies = function () {
  */
 passport.disconnect = function (req, res, next) {
   var user     = req.user
-    , provider = req.param('provider');
+    , provider = req.param('provider', 'local')
+    , query    = {};
 
-  Passport.findOne({
-      provider : provider,
-      user     : user.id
-    }, function (err, passport) {
+  query.user = user.id;
+  query[provider === 'local' ? 'protocol' : 'provider'] = provider;
+
+  Passport.findOne(query, function (err, passport) {
+    if (err) {
+      return next(err);
+    }
+
+    Passport.destroy(passport.id, function (error) {
       if (err) {
-        return next(err);
+          return next(err);
       }
 
-      Passport.destroy(passport.id, function (error) {
-        if (err) {
-          return next(err);
-        }
-
-        next(null, user);
-      });
+      next(null, user);
+    });
   });
 };
 
