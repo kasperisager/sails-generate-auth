@@ -4,6 +4,8 @@
 
 [![Release](http://img.shields.io/npm/v/sails-generate-auth.svg?style=flat)](https://www.npmjs.org/package/sails-generate-auth) [![Code Climate](http://img.shields.io/codeclimate/github/kasperisager/sails-generate-auth.svg?style=flat)](https://codeclimate.com/github/kasperisager/sails-generate-auth) [![Dependency Status](http://img.shields.io/gemnasium/kasperisager/sails-generate-auth.svg?style=flat)](https://gemnasium.com/kasperisager/sails-generate-auth) [![Downloads](http://img.shields.io/npm/dm/sails-generate-auth.svg?style=flat)](https://www.npmjs.org/package/sails-generate-auth)
 
+> :warning: __OBS:__ This generator is not currently actively maintained as I simply do not have the time. I'd be more than happy to add willing bodies as collaborators though!
+
 A Passport.js-based authentication generator for use with the Sails command-line interface.
 
 So, how easy is it to use? Say you wanted to add Twitter authentication to our app for example – this is all you'd need:
