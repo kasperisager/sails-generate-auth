@@ -75,7 +75,7 @@ For the routes, this is what you'll need to add to your `config/routes.js` file:
 
 ```javascript
 'get /login': 'AuthController.login',
-'get /logout': 'AuthController.logout',
+'post /logout': 'AuthController.logout',
 'get /register': 'AuthController.register',
 
 'post /auth/local': 'AuthController.callback',
