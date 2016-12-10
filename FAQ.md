@@ -67,6 +67,7 @@ The best thing about maintaining lots of small modules is that it's trivial to o
 If you feel that yours is the better approach, and should be the default, share it with the community via IRC, Twitter, Google Groups, etc.  Also, feel free to let the core Sails/Waterline team know and we'll take it into consideration.
 
 
+### How is this library is different than [sails-auth](https://github.com/tjwebb/sails-auth) ? Which should I use ?
 
 ### More questions?
 
